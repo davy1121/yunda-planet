@@ -1,0 +1,696 @@
+/* ---------- 云大食堂 ---------- */
+.food-page,
+.food-detail-page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 30px 24px 90px;
+}
+
+.food-header {
+  width: min(1000px, 100%);
+  margin: 0 auto;
+}
+
+.food-heading {
+  margin-top: 22px;
+}
+
+.food-heading h1 {
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  background: linear-gradient(100deg, #ff9f62, #ff6f9e 60%, #ffd35c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: rise-in 0.6s ease-out 0.05s both;
+}
+
+.food-heading p {
+  margin-top: 10px;
+  color: #7d6a86;
+  line-height: 1.8;
+  animation: rise-in 0.6s ease-out 0.1s both;
+}
+
+.food-notice {
+  width: min(1000px, 100%);
+  margin: 20px auto 0;
+  padding: 11px 18px;
+  border-radius: 999px;
+  text-align: center;
+  color: #6f5c77;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 22px rgba(121, 93, 144, 0.1);
+  backdrop-filter: blur(12px);
+  animation: rise-in 0.6s ease-out 0.14s both;
+}
+
+/* ---------- 必吃榜 ---------- */
+.food-leader {
+  width: min(1000px, 100%);
+  margin: 30px auto 0;
+  border-radius: 28px;
+  padding: 22px 24px 24px;
+  background: linear-gradient(135deg, #fff4de, #ffe9f0 55%, #eef4ff);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 16px 40px rgba(121, 93, 144, 0.13);
+  animation: rise-in 0.6s ease-out 0.18s both;
+}
+
+.food-leader-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.food-leader-head h2 {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #4f3d59;
+}
+
+.food-leader-head p {
+  margin-top: 5px;
+  color: #9b88a0;
+  font-size: 0.88rem;
+}
+
+.week-badge {
+  flex: 0 0 auto;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff9f62, #ff6f9e);
+}
+
+.rank-list {
+  display: grid;
+  gap: 10px;
+}
+
+.rank-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 16px rgba(121, 93, 144, 0.08);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.rank-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(121, 93, 144, 0.15);
+}
+
+.rank-medal {
+  font-size: 1.7rem;
+  flex: 0 0 auto;
+}
+
+.rank-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.rank-name {
+  font-weight: 800;
+  color: #4f3d59;
+  font-size: 0.98rem;
+}
+
+.rank-meta {
+  margin-top: 3px;
+  color: #a394a8;
+  font-size: 0.8rem;
+}
+
+.rank-score {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #ff8fb1;
+}
+
+.rank-empty {
+  color: #a394a8;
+  font-size: 0.92rem;
+  text-align: center;
+  padding: 22px 8px;
+}
+
+/* ---------- 工具栏与筛选 ---------- */
+.food-toolbar {
+  width: min(1000px, 100%);
+  margin: 24px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  animation: rise-in 0.6s ease-out 0.22s both;
+}
+
+.tool-btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: #fff;
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff9f62, #ff6f9e);
+  box-shadow: 0 12px 26px rgba(255, 143, 177, 0.32);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tool-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px rgba(255, 143, 177, 0.4);
+}
+
+.campus-filter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cat-btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #5d4b68;
+  background: rgba(255, 255, 255, 0.82);
+  border: 2px solid rgba(255, 255, 255, 0.96);
+  border-radius: 999px;
+  padding: 8px 16px;
+  box-shadow: 0 6px 16px rgba(121, 93, 144, 0.1);
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.cat-btn:hover {
+  transform: translateY(-2px);
+  border-color: #ffc0cf;
+}
+
+.cat-btn.is-active {
+  color: #fff;
+  background: linear-gradient(135deg, #ff9f62, #ff6f9e);
+  border-color: transparent;
+}
+
+/* ---------- 食堂卡片 ---------- */
+.canteen-grid {
+  width: min(1000px, 100%);
+  margin: 20px auto 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 16px;
+}
+
+.canteen-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 20px;
+  border-radius: 24px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 28px rgba(121, 93, 144, 0.12);
+  backdrop-filter: blur(12px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  animation: rise-in 0.45s ease-out both;
+}
+
+.canteen-card:hover {
+  transform: translateY(-4px);
+  border-color: #ffd1ae;
+  box-shadow: 0 18px 36px rgba(121, 93, 144, 0.17);
+}
+
+.canteen-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.canteen-emoji {
+  font-size: 2rem;
+}
+
+.campus-badge {
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #8d7cf0, #63c7ef);
+}
+
+.canteen-card h3 {
+  font-size: 1.18rem;
+  font-weight: 900;
+  color: #4f3d59;
+  line-height: 1.4;
+}
+
+.canteen-card .position {
+  color: #a394a8;
+  font-size: 0.86rem;
+}
+
+.canteen-card .intro {
+  color: #7d6a86;
+  font-size: 0.92rem;
+  line-height: 1.8;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.canteen-map-link {
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.mini-tag {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #a05b6e;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #fff0f4;
+}
+
+.canteen-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px dashed rgba(155, 136, 160, 0.25);
+  padding-top: 10px;
+  color: #a394a8;
+  font-size: 0.84rem;
+}
+
+.delete-btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e5788f;
+  background: none;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.delete-btn:hover {
+  background: #ffe1e8;
+}
+
+.empty-grid {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 44px 20px;
+  color: #9b88a0;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px dashed rgba(155, 136, 160, 0.35);
+}
+
+/* ---------- 食堂详情 ---------- */
+.food-detail-page .canteen-intro,
+.food-detail-page .stall-list {
+  width: min(1000px, 100%);
+  margin: 22px auto 0;
+}
+
+.canteen-intro {
+  padding: 22px 24px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #fff8e9, #fff0f4 55%, #eef8ff);
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  box-shadow: 0 14px 34px rgba(121, 93, 144, 0.12);
+}
+
+.canteen-position {
+  color: #a394a8;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+#detailMap {
+  margin-bottom: 12px;
+}
+
+#detailMap .loc-chip {
+  margin: 0;
+}
+
+.canteen-intro p:not(.canteen-position) {
+  color: #6f5c77;
+  line-height: 1.9;
+}
+
+.canteen-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.canteen-tags .mini-tag {
+  font-size: 0.82rem;
+}
+
+.intro-actions {
+  margin-top: 16px;
+}
+
+.stall-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+.stall-card {
+  padding: 17px 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  box-shadow: 0 10px 24px rgba(121, 93, 144, 0.1);
+  backdrop-filter: blur(12px);
+  animation: rise-in 0.4s ease-out both;
+}
+
+.stall-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.stall-head h3 {
+  font-size: 1.02rem;
+  font-weight: 900;
+  color: #4f3d59;
+}
+
+.stall-desc {
+  margin-top: 6px;
+  color: #8a758f;
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+.stall-score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(155, 136, 160, 0.22);
+}
+
+.avg-score {
+  font-size: 0.84rem;
+  color: #9b88a0;
+}
+
+.avg-score strong {
+  font-size: 1.25rem;
+  color: #ff8fb1;
+}
+
+.stars {
+  display: flex;
+  gap: 3px;
+}
+
+.star-btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #ead7c8;
+  background: none;
+  padding: 1px;
+  transition: transform 0.14s ease, color 0.14s ease;
+}
+
+.star-btn:hover {
+  transform: scale(1.22);
+}
+
+.star-btn.is-on {
+  color: #ffbc3f;
+}
+
+.my-score {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: #a394a8;
+}
+
+.stall-empty {
+  grid-column: 1 / -1;
+  color: #9b88a0;
+  text-align: center;
+  padding: 36px 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px dashed rgba(155, 136, 160, 0.3);
+}
+
+/* ---------- 弹窗（复用通用样式） ---------- */
+.d-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  padding: 22px;
+  background: rgba(74, 46, 80, 0.42);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.d-modal-backdrop.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.d-modal-card {
+  width: min(620px, 100%);
+  max-height: min(88vh, 88dvh);
+  overflow: auto;
+  background: rgba(255, 253, 250, 0.98);
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 28px 70px rgba(74, 46, 80, 0.28);
+  transform: translateY(18px) scale(0.97);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.d-modal-backdrop.show .d-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+.d-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.d-modal-head h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #4f3d59;
+}
+
+.d-close {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #7d6a86;
+  background: rgba(255, 226, 232, 0.85);
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.d-close:hover {
+  background: #ff8fb1;
+  color: #fff;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.d-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #6f5c77;
+}
+
+.d-field em {
+  color: #ff6f9e;
+  font-style: normal;
+}
+
+.d-field input,
+.d-field select,
+.d-field textarea {
+  appearance: none;
+  border: 2px solid #f3e3ef;
+  background: #fff;
+  color: #54415f;
+  border-radius: 16px;
+  padding: 11px 14px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.d-field input:focus,
+.d-field select:focus,
+.d-field textarea:focus {
+  border-color: #ff9db7;
+  box-shadow: 0 0 0 4px rgba(255, 143, 177, 0.14);
+}
+
+.d-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.d-btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.96rem;
+  font-weight: 700;
+  padding: 11px 22px;
+  border-radius: 999px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.d-btn:hover {
+  transform: translateY(-2px);
+}
+
+.d-btn.ghost {
+  color: #6f5c77;
+  background: #f3e8f0;
+}
+
+.d-btn.solid {
+  color: #fff;
+  background: linear-gradient(135deg, #ff9f62, #ff6f9e);
+  box-shadow: 0 10px 22px rgba(255, 143, 177, 0.3);
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 34px;
+  z-index: 120;
+  transform: translate(-50%, 20px);
+  background: rgba(86, 52, 92, 0.9);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+  border-radius: 999px;
+  padding: 11px 22px;
+  box-shadow: 0 14px 34px rgba(74, 46, 80, 0.32);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+
+.toast.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+@media (max-width: 620px) {
+  .food-page,
+  .food-detail-page {
+    padding: 24px 16px 70px;
+  }
+
+  .food-notice {
+    border-radius: 18px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .d-modal-backdrop {
+    padding: 14px;
+    align-items: end;
+  }
+
+  .d-modal-card {
+    max-height: 90vh;
+    max-height: 90dvh;
+    border-radius: 24px 24px 18px 18px;
+    padding: 20px 16px;
+  }
+}

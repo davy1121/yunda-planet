@@ -1,0 +1,82 @@
+/* ---------- 界面张开 → 缩小 → 切换 ---------- */
+
+html.pf-zoom-out,
+html.pf-zoom-in {
+  overflow: hidden;
+  background: #ffeaf0;
+}
+
+/* 转场期间暂停高成本渲染：模糊星球、毛玻璃效果 */
+html.pf-zoom-out .orb,
+html.pf-zoom-in .orb {
+  animation: none;
+  filter: none;
+}
+
+html.pf-zoom-out .option-chip,
+html.pf-zoom-out .back-link,
+html.pf-zoom-out .placeholder-card,
+html.pf-zoom-out .services-notice,
+html.pf-zoom-out .service-section,
+html.pf-zoom-out .control-panel,
+html.pf-zoom-out .schedule-scroll,
+html.pf-zoom-out .modal-backdrop,
+html.pf-zoom-out .toast,
+html.pf-zoom-in .option-chip,
+html.pf-zoom-in .back-link,
+html.pf-zoom-in .placeholder-card,
+html.pf-zoom-in .services-notice,
+html.pf-zoom-in .service-section,
+html.pf-zoom-in .control-panel,
+html.pf-zoom-in .schedule-scroll,
+html.pf-zoom-in .modal-backdrop,
+html.pf-zoom-in .toast {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 旧界面：从点击处“张开”放大并淡出 */
+html.pf-zoom-out body {
+  animation: pf-screen-grow 0.24s cubic-bezier(0.5, 0, 0.8, 0.35) both;
+  will-change: transform, opacity;
+}
+
+@keyframes pf-screen-grow {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.09);
+  }
+}
+
+/* 新界面：先保持放大的状态，再“缩小”落到正常界面 */
+html.pf-zoom-in body {
+  animation: pf-screen-settle 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+@keyframes pf-screen-settle {
+  from {
+    opacity: 0;
+    transform: scale(1.09);
+  }
+  60% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.pf-zoom-out body,
+  html.pf-zoom-in body {
+    animation: none !important;
+  }
+}

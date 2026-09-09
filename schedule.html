@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>课表录入 · 云大星球</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="schedule.css">
+  <link rel="stylesheet" href="pageflow.css">
+  <script src="pageflow-start.js"></script>
+  <script src="pageflow.js" defer></script>
+</head>
+<body>
+  <div class="scene" aria-hidden="true">
+    <span class="orb orb-pink"></span>
+    <span class="orb orb-peach"></span>
+    <span class="orb orb-yellow"></span>
+    <span class="orb orb-mint"></span>
+    <span class="orb orb-sky"></span>
+    <span class="orb orb-lavender"></span>
+  </div>
+
+  <main class="schedule-page">
+    <header class="schedule-header">
+      <a class="back-link" href="index.html">← 返回星球主页</a>
+      <div class="schedule-heading">
+        <h1>📚 课表录入</h1>
+        <p>周一至周日依次排开 · 每天 12 节课，可手动录入或拍照识别</p>
+      </div>
+    </header>
+
+    <section class="control-panel" aria-label="课表操作">
+      <div class="control-buttons">
+        <button id="openManualBtn" class="tool-btn btn-primary" type="button">＋ 手动录入课程</button>
+        <button id="openPhotoBtn" class="tool-btn btn-photo" type="button">📷 拍照识别课表</button>
+      </div>
+
+      <div class="reminder-wrap" id="reminderWrap">
+        <div class="reminder-copy">
+          <span class="reminder-emoji" aria-hidden="true">⏰</span>
+          <div>
+            <strong>上课提醒</strong>
+            <small id="reminderStatus">点击开启后，到上课时间会提醒你</small>
+          </div>
+        </div>
+        <button class="reminder-switch" id="reminderToggle" type="button"
+                role="switch" aria-checked="false" aria-label="上课提醒开关">
+          <span class="reminder-knob"></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="schedule-scroll" id="scheduleScroll">
+      <table class="schedule-table" id="scheduleTable" aria-label="课程表"></table>
+    </section>
+
+    <p class="schedule-footnote">
+      点击空格即可录入课程；点击已填写的课程可以编辑或删除。录课时填写了教室，可点地点旁的“百度地图”按钮查楼栋；该入口使用百度地图官方 URI API 网页跳转。
+    </p>
+  </main>
+
+  <!-- 手动录入 / 编辑课程弹窗 -->
+  <div class="modal-backdrop" id="manualModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="manualTitle">
+      <div class="modal-head">
+        <h2 id="manualTitle">录入课程</h2>
+        <button class="icon-close" type="button" data-close="manualModal" aria-label="关闭">×</button>
+      </div>
+
+      <form id="manualForm">
+        <div class="form-grid">
+          <label class="field">
+            <span>星期</span>
+            <select id="courseDay"></select>
+          </label>
+          <label class="field">
+            <span>节次</span>
+            <select id="coursePeriod"></select>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>课程名称 <em>*</em></span>
+          <input id="courseName" type="text" maxlength="30" placeholder="例如：高等数学" required>
+        </label>
+
+        <div class="form-grid">
+          <label class="field">
+            <span>地点 / 教室（选填）</span>
+            <input id="courseLocation" type="text" maxlength="30" placeholder="例如：文汇楼 A101">
+            <a id="courseMapLink" class="loc-chip schedule-loc-hint" target="_blank" rel="noopener noreferrer"
+               href="https://api.map.baidu.com/place/search?query=%E4%BA%91%E5%8D%97%E5%A4%A7%E5%AD%A6%E5%91%88%E8%B4%A1%E6%A0%A1%E5%8C%BA&region=%E6%98%86%E6%98%8E&output=html&src=webapp.yundaxingqiu.schedule">🗺️ 在百度地图搜这个地点</a>
+          </label>
+          <label class="field">
+            <span>老师（选填）</span>
+            <input id="courseTeacher" type="text" maxlength="20" placeholder="例如：王老师">
+          </label>
+        </div>
+
+        <div class="field">
+          <span>课程颜色</span>
+          <div class="color-row" id="colorRow" role="radiogroup" aria-label="选择课程颜色"></div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-danger" id="deleteCourseBtn" type="button">删除这节课</button>
+          <div class="action-right">
+            <button class="btn-ghost" type="button" data-close="manualModal">取消</button>
+            <button class="btn-solid" type="submit">保存课程</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 拍照识别弹窗 -->
+  <div class="modal-backdrop" id="photoModal" aria-hidden="true">
+    <div class="modal-card modal-wide" role="dialog" aria-modal="true" aria-labelledby="photoTitle">
+      <div class="modal-head">
+        <h2 id="photoTitle">📷 拍照识别课表</h2>
+        <button class="icon-close" type="button" data-close="photoModal" aria-label="关闭">×</button>
+      </div>
+
+      <div class="photo-layout">
+        <div class="photo-side">
+          <div class="photo-source-buttons">
+            <button class="tool-btn btn-primary" id="cameraBtn" type="button">📷 拍照</button>
+            <button class="tool-btn btn-photo" id="albumBtn" type="button">🖼 从相册选择</button>
+            <input id="photoInput" type="file" accept="image/*" hidden>
+          </div>
+          <div class="photo-preview" id="photoPreview">
+            <img id="photoImg" alt="待识别的课表照片" hidden>
+            <p id="photoPlaceholder">选择一张清晰的课表照片，识别结果会出现在右侧。</p>
+          </div>
+          <p class="ocr-status" id="ocrStatus">尚未选择照片</p>
+        </div>
+
+        <div class="ocr-side">
+          <div class="field">
+            <span>识别文字（可修改校对）</span>
+            <textarea id="ocrOutput" rows="12" placeholder="识别出的课程文字会显示在这里，如有误差可直接修改。"></textarea>
+          </div>
+          <div class="ocr-tips">
+            <strong>提示</strong>
+            <p>识别在浏览器本地进行，首次需要联网下载中文识别包。识别结果用于对照核对，之后点击课表中对应格子即可快速补录。</p>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-ghost" id="copyOcrBtn" type="button">复制识别结果</button>
+            <button class="btn-solid" type="button" data-close="photoModal">完成</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="schedule.js"></script>
+</body>
+</html>

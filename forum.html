@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>校内论坛 · 云大星球</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="discuss.css">
+  <link rel="stylesheet" href="pageflow.css">
+  <script src="pageflow-start.js"></script>
+  <script>
+    window.YUNQIU_FORUM_CONFIG = {
+      storageKey: "yunqiu_campus_forum_v1",
+      categories: {
+        talk: { label: "校园闲聊", emoji: "💬", className: "cat-campus" },
+        lost: { label: "失物招领", emoji: "🔍", className: "cat-lost" },
+        second: { label: "二手闲置", emoji: "🔄", className: "cat-second" },
+        team: { label: "组队拼车", emoji: "🚗", className: "cat-team" },
+        club: { label: "社团活动", emoji: "🎪", className: "cat-club" },
+      },
+    };
+  </script>
+  <script src="pageflow.js" defer></script>
+  <script src="discuss.js" defer></script>
+</head>
+<body>
+  <div class="scene" aria-hidden="true">
+    <span class="orb orb-pink"></span>
+    <span class="orb orb-peach"></span>
+    <span class="orb orb-yellow"></span>
+    <span class="orb orb-mint"></span>
+    <span class="orb orb-sky"></span>
+    <span class="orb orb-lavender"></span>
+  </div>
+
+  <main class="discuss-page">
+    <header class="discuss-header">
+      <a class="back-link" href="index.html">← 返回星球主页</a>
+      <div class="discuss-heading">
+        <h1>🏫 校内论坛</h1>
+        <p>校园里的大小事都在这里：闲聊、失物招领、二手闲置、组队拼车与社团活动。</p>
+      </div>
+    </header>
+
+    <section class="discuss-toolbar" aria-label="发帖与统计">
+      <button class="tool-btn compose-btn" id="composeBtn" type="button">＋ 发布新帖</button>
+      <p class="post-stat" id="postStat">还没有帖子</p>
+    </section>
+    <p class="storage-note">
+      ℹ️ 当前帖子保存在这台电脑的浏览器里。以后接上服务器后，就能让所有同学一起看到、一起讨论。
+    </p>
+
+    <nav class="category-bar" id="categoryBar" aria-label="帖子分类">
+      <button class="cat-btn is-active" type="button" data-filter="all">全部</button>
+      <button class="cat-btn" type="button" data-filter="talk">💬 校园闲聊</button>
+      <button class="cat-btn" type="button" data-filter="lost">🔍 失物招领</button>
+      <button class="cat-btn" type="button" data-filter="second">🔄 二手闲置</button>
+      <button class="cat-btn" type="button" data-filter="team">🚗 组队拼车</button>
+      <button class="cat-btn" type="button" data-filter="club">🎪 社团活动</button>
+    </nav>
+
+    <section class="post-list" id="postList" aria-live="polite"></section>
+  </main>
+
+  <!-- 发布新帖 -->
+  <div class="d-modal-backdrop" id="composeModal" aria-hidden="true">
+    <div class="d-modal-card compose-card" role="dialog" aria-modal="true" aria-labelledby="composeTitle">
+      <div class="d-modal-head">
+        <h2 id="composeTitle">发布新帖</h2>
+        <button class="d-close" type="button" data-close="composeModal" aria-label="关闭">×</button>
+      </div>
+
+      <form id="composeForm">
+        <div class="form-grid">
+          <label class="d-field">
+            <span>帖子分类</span>
+            <select id="postCategory">
+              <option value="talk">校园闲聊</option>
+              <option value="lost">失物招领</option>
+              <option value="second">二手闲置</option>
+              <option value="team">组队拼车</option>
+              <option value="club">社团活动</option>
+            </select>
+          </label>
+          <label class="d-field">
+            <span>昵称（可选）</span>
+            <input id="postAuthor" type="text" maxlength="16" placeholder="默认：云大学子">
+          </label>
+        </div>
+
+        <label class="d-field">
+          <span>标题 <em>*</em></span>
+          <input id="postTitle" type="text" maxlength="60" placeholder="例如：在操场捡到一张校园卡">
+        </label>
+
+        <label class="d-field">
+          <span>内容 <em>*</em></span>
+          <textarea id="postContent" rows="7" maxlength="3000"
+                    placeholder="发布招领/求助、出售闲置、约人组队、介绍社团活动……"></textarea>
+        </label>
+
+        <div class="d-modal-actions">
+          <button class="d-btn ghost" type="button" data-close="composeModal">取消</button>
+          <button class="d-btn solid" type="submit">发布帖子</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 帖子详情与回复 -->
+  <div class="d-modal-backdrop" id="threadModal" aria-hidden="true">
+    <div class="d-modal-card thread-card" role="dialog" aria-modal="true" aria-labelledby="threadTitle">
+      <div class="d-modal-head">
+        <h2 id="threadTitle">帖子详情</h2>
+        <button class="d-close" type="button" data-close="threadModal" aria-label="关闭">×</button>
+      </div>
+      <div class="thread-body" id="threadBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="discussToast" role="status" aria-live="polite"></div>
+</body>
+</html>

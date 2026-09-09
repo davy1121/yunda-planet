@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学校食堂 · 云大星球</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="canteens.css">
+  <link rel="stylesheet" href="pageflow.css">
+  <script src="pageflow-start.js"></script>
+  <script src="pageflow.js" defer></script>
+  <script src="canteens.js" defer></script>
+</head>
+<body>
+  <div class="scene" aria-hidden="true">
+    <span class="orb orb-pink"></span>
+    <span class="orb orb-peach"></span>
+    <span class="orb orb-yellow"></span>
+    <span class="orb orb-mint"></span>
+    <span class="orb orb-sky"></span>
+    <span class="orb orb-lavender"></span>
+  </div>
+
+  <!-- 食堂总览 -->
+  <main class="food-page" id="listView">
+    <header class="food-header">
+      <a class="back-link" href="index.html">← 返回星球主页</a>
+      <div class="food-heading">
+        <h1>🍜 云大食堂</h1>
+        <p>东陆与呈贡的食堂都在这里，给每个档口打分，一起选出每周云大必吃榜。</p>
+      </div>
+    </header>
+
+    <p class="food-notice">
+      🥢 数据由同学们共同补充维护；当前版本保存在本机浏览器，接入服务器后所有同学即可共享榜单与新增内容。食堂位置旁的“百度地图”按钮使用百度地图官方 URI API 网页跳转，不嵌入或抓取地图数据。
+    </p>
+
+    <section class="food-leader" aria-label="每周云大必吃榜">
+      <div class="food-leader-head">
+        <div>
+          <h2>🏆 云大必吃榜</h2>
+          <p>统计最近 7 天所有同学的评分，自动更新</p>
+        </div>
+        <span class="week-badge">本周</span>
+      </div>
+      <div class="rank-list" id="rankList"></div>
+    </section>
+
+    <section class="food-toolbar">
+      <div>
+        <button class="tool-btn add-canteen-btn" id="addCanteenBtn" type="button">＋ 补充食堂</button>
+      </div>
+      <nav class="campus-filter" id="campusFilter" aria-label="按校区筛选">
+        <button class="cat-btn is-active" type="button" data-campus="all">全部</button>
+        <button class="cat-btn" type="button" data-campus="呈贡校区">🏙️ 呈贡</button>
+        <button class="cat-btn" type="button" data-campus="东陆校区">🏛️ 东陆</button>
+      </nav>
+    </section>
+
+    <section class="canteen-grid" id="canteenGrid"></section>
+  </main>
+
+  <!-- 食堂详情 -->
+  <main class="food-detail-page" id="detailView" hidden>
+    <header class="food-header">
+      <button class="back-link detail-back" id="backToList" type="button">← 返回食堂列表</button>
+      <div class="food-heading">
+        <h1 id="detailName">食堂</h1>
+        <p id="detailSub">云南大学食堂</p>
+      </div>
+    </header>
+
+    <section class="canteen-intro">
+      <p id="detailPosition" class="canteen-position"></p>
+      <div id="detailMap"></div>
+      <p id="detailIntro"></p>
+      <div class="canteen-tags" id="detailTags"></div>
+      <div class="intro-actions">
+        <button class="tool-btn" id="addStallBtn" type="button">＋ 补充这个食堂的档口</button>
+      </div>
+    </section>
+
+    <section class="stall-list" id="stallList" aria-label="档口列表"></section>
+  </main>
+
+  <!-- 补充食堂 -->
+  <div class="d-modal-backdrop" id="canteenModal" aria-hidden="true">
+    <div class="d-modal-card" role="dialog" aria-modal="true" aria-labelledby="canteenModalTitle">
+      <div class="d-modal-head">
+        <h2 id="canteenModalTitle">补充食堂</h2>
+        <button class="d-close" type="button" data-close="canteenModal" aria-label="关闭">×</button>
+      </div>
+      <form id="canteenForm">
+        <div class="form-grid">
+          <label class="d-field">
+            <span>所在校区</span>
+            <select id="newCanteenCampus">
+              <option value="呈贡校区">呈贡校区</option>
+              <option value="东陆校区">东陆校区</option>
+            </select>
+          </label>
+          <label class="d-field">
+            <span>食堂名称 <em>*</em></span>
+            <input id="newCanteenName" type="text" maxlength="30" placeholder="例如：玫瑰园食堂">
+          </label>
+        </div>
+        <label class="d-field">
+          <span>大致位置</span>
+          <input id="newCanteenPosition" type="text" maxlength="60" placeholder="例如：图书馆旁边 / 某宿舍园区">
+        </label>
+        <label class="d-field">
+          <span>食堂特色介绍</span>
+          <textarea id="newCanteenIntro" rows="4" maxlength="500" placeholder="这家食堂有什么好吃的、哪层有什么特色？"></textarea>
+        </label>
+        <label class="d-field">
+          <span>标签（用顿号分隔）</span>
+          <input id="newCanteenTags" type="text" maxlength="80" placeholder="例如：小锅米线、清真、夜宵">
+        </label>
+        <div class="d-modal-actions">
+          <button class="d-btn ghost" type="button" data-close="canteenModal">取消</button>
+          <button class="d-btn solid" type="submit">添加食堂</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 补充档口 -->
+  <div class="d-modal-backdrop" id="stallModal" aria-hidden="true">
+    <div class="d-modal-card" role="dialog" aria-modal="true" aria-labelledby="stallModalTitle">
+      <div class="d-modal-head">
+        <h2 id="stallModalTitle">补充档口 / 店铺</h2>
+        <button class="d-close" type="button" data-close="stallModal" aria-label="关闭">×</button>
+      </div>
+      <form id="stallForm">
+        <label class="d-field">
+          <span>所属食堂</span>
+          <input id="stallCanteenName" type="text" disabled>
+        </label>
+        <label class="d-field">
+          <span>档口名称 <em>*</em></span>
+          <input id="newStallName" type="text" maxlength="30" placeholder="例如：小锅米线窗口">
+        </label>
+        <label class="d-field">
+          <span>卖什么 / 特色</span>
+          <input id="newStallDesc" type="text" maxlength="120" placeholder="例如：官渡小锅米线，可加冒">
+        </label>
+        <div class="d-modal-actions">
+          <button class="d-btn ghost" type="button" data-close="stallModal">取消</button>
+          <button class="d-btn solid" type="submit">添加档口</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="foodToast" role="status" aria-live="polite"></div>
+</body>
+</html>

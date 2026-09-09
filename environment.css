@@ -1,0 +1,219 @@
+/* ---------- 学校环境 ---------- */
+.env-page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 30px 24px 90px;
+}
+
+.env-header {
+  width: min(1080px, 100%);
+  margin: 0 auto;
+}
+
+.env-heading {
+  margin-top: 22px;
+}
+
+.env-heading h1 {
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  background: linear-gradient(100deg, #5fc6f0, #8d7cf0 60%, #ff8fb1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: rise-in 0.6s ease-out 0.05s both;
+}
+
+.env-heading p {
+  margin-top: 10px;
+  color: #7d6a86;
+  line-height: 1.8;
+  animation: rise-in 0.6s ease-out 0.1s both;
+}
+
+.env-notice {
+  width: min(1080px, 100%);
+  margin: 20px auto 0;
+  padding: 11px 18px;
+  border-radius: 999px;
+  text-align: center;
+  color: #6f5c77;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 22px rgba(121, 93, 144, 0.1);
+  backdrop-filter: blur(12px);
+  animation: rise-in 0.6s ease-out 0.14s both;
+}
+
+.env-block {
+  width: min(1080px, 100%);
+  margin: 38px auto 0;
+  animation: rise-in 0.6s ease-out both;
+}
+
+.env-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: clamp(1.35rem, 4vw, 1.8rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #4f3d59;
+}
+
+.env-section-title span {
+  font-size: 1.5rem;
+}
+
+.env-section-desc {
+  margin: 8px 0 18px;
+  color: #8a758f;
+  line-height: 1.8;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.photo-card {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 30px rgba(121, 93, 144, 0.13);
+  backdrop-filter: blur(12px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.photo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 38px rgba(121, 93, 144, 0.18);
+}
+
+.photo-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #f6ecf2;
+}
+
+.photo-card figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px 16px;
+}
+
+.photo-card figcaption strong,
+.pending-card strong,
+.dorm-name {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #4f3d59;
+}
+
+.photo-card figcaption span {
+  color: #9b88a0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.photo-card figcaption .loc-chip {
+  align-self: flex-start;
+  margin-top: 3px;
+}
+
+.pending-card,
+.dorm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 22px;
+  min-height: 210px;
+}
+
+.pending-card {
+  background:
+    repeating-linear-gradient(-45deg,
+      rgba(255, 255, 255, 0.82),
+      rgba(255, 255, 255, 0.82) 14px,
+      rgba(240, 231, 246, 0.9) 14px,
+      rgba(240, 231, 246, 0.9) 28px);
+}
+
+.pending-card p,
+.dorm-card p {
+  color: #7d6a86;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.pending-emoji {
+  font-size: 2.4rem;
+}
+
+.dorm-card {
+  background: linear-gradient(145deg, #fff1f5, #eef8ff);
+}
+
+.dorm-name {
+  font-size: 1.2rem;
+}
+
+.pending-tag {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #9b88a0;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(155, 136, 160, 0.3);
+}
+
+.pending-card .loc-chip,
+.dorm-card .loc-chip {
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.env-footer-note {
+  width: min(1080px, 100%);
+  margin: 34px auto 0;
+  color: #9b88a0;
+  font-size: 0.86rem;
+  line-height: 1.8;
+  text-align: center;
+}
+
+@media (max-width: 620px) {
+  .env-page {
+    padding: 24px 16px 70px;
+  }
+
+  .env-notice {
+    border-radius: 18px;
+  }
+
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-card img {
+    aspect-ratio: 4 / 3;
+  }
+}

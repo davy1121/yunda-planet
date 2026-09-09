@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>校内出行 · 云大星球</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="transport.css">
+  <link rel="stylesheet" href="pageflow.css">
+  <script src="pageflow-start.js"></script>
+  <script src="pageflow.js" defer></script>
+</head>
+<body>
+  <div class="scene" aria-hidden="true">
+    <span class="orb orb-pink"></span>
+    <span class="orb orb-peach"></span>
+    <span class="orb orb-yellow"></span>
+    <span class="orb orb-mint"></span>
+    <span class="orb orb-sky"></span>
+    <span class="orb orb-lavender"></span>
+  </div>
+
+  <main class="trip-page">
+    <header class="trip-header">
+      <a class="back-link" href="index.html">← 返回星球主页</a>
+      <div class="trip-heading">
+        <h1>🚌 校内出行</h1>
+        <p>共享电动车、两校区班车与呈贡校园公交，一篇看明白</p>
+      </div>
+    </header>
+
+    <p class="trip-notice">
+      ⏰ 校车与公交时刻可能随学期调整，页面内容整理于 2026 年 9 月，出发前请以学校后勤或昆明公交实时信息为准。
+    </p>
+
+    <section class="trip-block">
+      <h2 class="trip-title">🛵 共享电动车</h2>
+      <div class="trip-cards">
+        <div class="trip-card">
+          <div class="trip-card-icon">⚡</div>
+          <h3>呈贡校区 · 校园共享电动车</h3>
+          <p>
+            呈贡校区内运营有校园共享电动车（目前可见为“天猫校园共享电动车”），一般通过支付宝/对应小程序扫码使用，骑行时请在校内规定区域、规定速度内行驶，并在指定停车点还车。
+          </p>
+          <p class="trip-tip">
+            💡 具体投放点、收费标准与还车区域可能随运营调整，请以校内现场公告或运营方页面为准。
+          </p>
+          <a class="loc-chip" target="_blank" rel="noopener noreferrer"
+             href="https://api.map.baidu.com/place/search?query=%E4%BA%91%E5%8D%97%E5%A4%A7%E5%AD%A6%E5%91%88%E8%B4%A1%E6%A0%A1%E5%8C%BA&region=%E6%98%86%E6%98%8E&output=html&src=webapp.yundaxingqiu.transport">🗺️ 查看呈贡校区位置</a>
+        </div>
+        <div class="trip-card">
+          <div class="trip-card-icon">🚶</div>
+          <h3>短途步行 / 自行车</h3>
+          <p>
+            呈贡校区面积较大，但上课高峰仍有很多同学选择步行或骑车；东陆校区较小，步行基本可以覆盖主要教学楼与宿舍。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="trip-block">
+      <h2 class="trip-title">🚌 两校区班车（校车）时刻表</h2>
+      <p class="trip-desc">来源：云南大学后勤服务保障中心“校车服务”页面。</p>
+      <div class="trip-map-row">
+        <a class="loc-chip" target="_blank" rel="noopener noreferrer"
+           href="https://api.map.baidu.com/place/search?query=%E4%BA%91%E5%8D%97%E5%A4%A7%E5%AD%A6%E5%BA%86%E6%9D%A5%E5%A0%82&region=%E6%98%86%E6%98%8E&output=html&src=webapp.yundaxingqiu.transport">🚏 东陆园乘车点 · 庆来堂停车场</a>
+        <a class="loc-chip" target="_blank" rel="noopener noreferrer"
+           href="https://api.map.baidu.com/place/search?query=%E4%BA%91%E5%8D%97%E5%A4%A7%E5%AD%A6%E5%91%88%E8%B4%A1%E6%A0%A1%E5%8C%BA&region=%E6%98%86%E6%98%8E&output=html&src=webapp.yundaxingqiu.transport">🚏 呈贡校区乘车点</a>
+        <a class="loc-chip" target="_blank" rel="noopener noreferrer"
+           href="https://api.map.baidu.com/place/search?query=%E4%BA%91%E5%8D%97%E5%A4%A7%E5%AD%A6%E9%BE%99%E6%B3%89%E8%B7%AF%E4%BD%8F%E5%AE%85%E5%8C%BA&region=%E6%98%86%E6%98%8E&output=html&src=webapp.yundaxingqiu.transport">🚏 龙泉路小区乘车点 · 北二门</a>
+      </div>
+
+      <div class="time-table-wrap">
+        <table class="time-table">
+          <thead>
+            <tr>
+              <th>方向</th>
+              <th>发车时间</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>东陆园 → 呈贡校区</td>
+              <td>7:00 · 7:20 · 8:00 · 9:00 · 12:30 · 17:40</td>
+              <td>7:20 节假日、周末停开</td>
+            </tr>
+            <tr>
+              <td>呈贡校区 → 东陆园</td>
+              <td>8:30 · 10:30</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>呈贡校区 → 龙泉小区 → 东陆园</td>
+              <td>13:00 · 16:00 · 16:30 · 17:20 · 18:00 · 21:00</td>
+              <td>节假日、周末不经过龙泉小区</td>
+            </tr>
+            <tr>
+              <td>龙泉小区 → 呈贡校区</td>
+              <td>7:00 · 12:30</td>
+              <td>12:30 节假日、周末停开</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="trip-tip">
+        💡 每个时间段会按实际人数安排车辆；乘车方式、刷卡/扫码票价请以学校后勤发布为准。
+      </p>
+    </section>
+
+    <section class="trip-block">
+      <h2 class="trip-title">🚏 公交与校园公交运行时间</h2>
+      <p class="trip-desc">呈贡校区内主要有 Z52、Z53 两条昆明公交线路；以下为首末班参考时间。</p>
+
+      <div class="bus-list">
+        <article class="bus-card">
+          <div class="bus-head">
+            <span class="bus-line">Z52</span>
+            <span class="bus-route">呈贡校区内摆渡线</span>
+          </div>
+          <p>云南大学呈贡校区内运行的校园摆渡公交，连接校内主要站点。</p>
+          <ul class="bus-meta">
+            <li>🕗 参考运营：约 8:00 – 21:00</li>
+            <li>⏱️ 工作日约每小时一班，周末约 10–15 分钟一班（以昆明公交实时为准）</li>
+          </ul>
+          <div class="bus-links">
+            <a class="loc-chip" target="_blank" rel="noopener noreferrer"
+               href="https://api.map.baidu.com/place/search?query=Z52%E8%B7%AF&region=%E6%98%86%E6%98%8E&output=html&src=webapp.yundaxingqiu.transport">🗺️ 查看 Z52 线路与站点</a>
+          </div>
+        </article>
+
+        <article class="bus-card">
+          <div class="bus-head">
+            <span class="bus-line">Z53</span>
+            <span class="bus-route">云大 ↔ 雨花公交枢纽站（大学城地铁站）</span>
+          </div>
+          <p>连接云南大学（呈贡）与大学城地铁站/雨花公交枢纽，去地铁站坐这条最方便。</p>
+          <ul class="bus-meta">
+            <li>🕗 参考运营：约 7:00 – 22:00</li>
+            <li>🔁 具体班次与间隔请用车来了/高德或昆明公交 App 实时查询</li>
+          </ul>
+          <div class="bus-links">
+            <a class="loc-chip" target="_blank" rel="noopener noreferrer"
+               href="https://api.map.baidu.com/place/search?query=Z53%E8%B7%AF&region=%E6%98%86%E6%98%8E&output=html&src=webapp.yundaxingqiu.transport">🗺️ 查看 Z53 线路与站点</a>
+            <a class="loc-chip" target="_blank" rel="noopener noreferrer"
+               href="https://api.map.baidu.com/place/search?query=%E5%A4%A7%E5%AD%A6%E5%9F%8E%E5%9C%B0%E9%93%81%E7%AB%99&region=%E6%98%86%E6%98%8E&output=html&src=webapp.yundaxingqiu.transport">🚇 大学城地铁站</a>
+            <a class="loc-chip" target="_blank" rel="noopener noreferrer"
+               href="https://api.map.baidu.com/place/search?query=%E9%9B%A8%E8%8A%B1%E5%85%AC%E4%BA%A4%E6%9E%A2%E7%BA%BD%E7%AB%99&region=%E6%98%86%E6%98%8E&output=html&src=webapp.yundaxingqiu.transport">🚏 雨花公交枢纽站</a>
+          </div>
+        </article>
+
+        <article class="bus-card">
+          <div class="bus-head">
+            <span class="bus-line">东陆周边</span>
+            <span class="bus-route">一二一大街 / 师范大学站一带</span>
+          </div>
+          <p>东陆校区附近常用的公交有 10 路、22 路、55 路、84 路、96 路、111 路甲/乙线等，多在“师范大学”或“一二一大街（莲花池）”站下车。</p>
+          <ul class="bus-meta">
+            <li>🕗 常规线路多从清晨 6:00 前后运行至 21:00–22:00 前后</li>
+            <li>📱 不同线路首末班不同，请以实时公交软件为准</li>
+          </ul>
+          <div class="bus-links">
+            <a class="loc-chip" target="_blank" rel="noopener noreferrer"
+               href="https://api.map.baidu.com/place/search?query=%E4%B8%80%E4%BA%8C%E4%B8%80%E5%A4%A7%E8%A1%97&region=%E6%98%86%E6%98%8E&output=html&src=webapp.yundaxingqiu.transport">🗺️ 查看一二一大街沿线公交</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <p class="trip-source">
+      参考来源：云南大学后勤服务保障中心校车服务页、昆明市交通运输局关于 Z52/Z53 的公开答复、云南大学出行指南。<br>
+      所有时刻若有变动，请以学校后勤与昆明公交的最新发布为准。<br>
+      地图入口使用百度地图官方 URI API 网页链接，页面不嵌入或抓取地图数据。
+    </p>
+  </main>
+</body>
+</html>

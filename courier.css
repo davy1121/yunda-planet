@@ -1,0 +1,327 @@
+/* ---------- 校内快递 ---------- */
+.logi-page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 30px 24px 90px;
+}
+
+.logi-header {
+  width: min(1000px, 100%);
+  margin: 0 auto;
+}
+
+.logi-heading {
+  margin-top: 22px;
+}
+
+.logi-heading h1 {
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  background: linear-gradient(100deg, #ff9db7, #9b8cf5 45%, #63c7ef);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: rise-in 0.6s ease-out 0.05s both;
+}
+
+.logi-heading p {
+  margin-top: 10px;
+  color: #7d6a86;
+  line-height: 1.8;
+  animation: rise-in 0.6s ease-out 0.1s both;
+}
+
+.logi-notice {
+  width: min(1000px, 100%);
+  margin: 20px auto 0;
+  padding: 11px 18px;
+  border-radius: 999px;
+  text-align: center;
+  color: #6f5c77;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 22px rgba(121, 93, 144, 0.1);
+  backdrop-filter: blur(12px);
+  animation: rise-in 0.6s ease-out 0.14s both;
+}
+
+.logi-map-note {
+  width: min(1000px, 100%);
+  margin: 14px auto 0;
+  padding: 11px 18px;
+  border-radius: 18px;
+  color: #6f5c77;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(237, 245, 255, 0.82));
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 22px rgba(121, 93, 144, 0.08);
+  animation: rise-in 0.6s ease-out 0.16s both;
+}
+
+.logi-block {
+  width: min(1000px, 100%);
+  margin: 38px auto 0;
+  animation: rise-in 0.6s ease-out both;
+}
+
+.logi-title {
+  font-size: clamp(1.3rem, 4vw, 1.7rem);
+  font-weight: 900;
+  color: #4f3d59;
+  letter-spacing: 0.03em;
+}
+
+.logi-desc {
+  margin: 7px 0 16px;
+  color: #9b88a0;
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+.station-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.station-card {
+  padding: 22px;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(145deg, #eafff6, #eef8ff);
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 28px rgba(121, 93, 144, 0.12);
+}
+
+.station-card:nth-child(2) {
+  background: linear-gradient(145deg, #fff4de, #fff0f4);
+}
+
+.station-card:nth-child(3) {
+  background: linear-gradient(145deg, #f2edff, #eaf7ff);
+}
+
+.station-card:nth-child(4) {
+  background: linear-gradient(145deg, #fff0f6, #fff8e1);
+}
+
+.station-main {
+  position: relative;
+  background: linear-gradient(145deg, #e6f5ff, #efe9ff) !important;
+  border: 2px solid rgba(99, 199, 239, 0.45);
+}
+
+.station-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.85);
+  margin-bottom: 12px;
+}
+
+.station-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.badge-red {
+  background: linear-gradient(135deg, #ff8fa3, #ff6f9e);
+}
+
+.badge-blue {
+  background: linear-gradient(135deg, #63c7ef, #8d7cf0);
+}
+
+.badge-green {
+  background: linear-gradient(135deg, #65d8b8, #3ebd9a);
+}
+
+.station-card h3 {
+  font-size: 1.08rem;
+  font-weight: 900;
+  color: #4f3d59;
+}
+
+.station-desc {
+  margin-top: 8px;
+  color: #6f5c77;
+  line-height: 1.8;
+  font-size: 0.9rem;
+}
+
+.station-list {
+  list-style: none;
+  margin-top: 10px;
+  display: grid;
+  gap: 6px;
+  color: #7d6a86;
+  font-size: 0.87rem;
+  line-height: 1.7;
+}
+
+.station-list li {
+  position: relative;
+  padding-left: 16px;
+}
+
+.station-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff9db7, #ffd35c);
+}
+
+.station-addr {
+  margin-top: 12px;
+  padding: 9px 12px;
+  border-radius: 13px;
+  color: #9b88a0;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.map-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: auto;
+  padding-top: 15px;
+}
+
+.map-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 9px 15px;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.map-btn-nav {
+  color: #fff;
+  background: linear-gradient(135deg, #ff8fa3, #ff6f9e);
+  box-shadow: 0 8px 18px rgba(255, 111, 158, 0.28);
+}
+
+.map-btn-view {
+  color: #3f7fb8;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(99, 199, 239, 0.55);
+}
+
+.map-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 11px 22px rgba(121, 93, 144, 0.2);
+}
+
+.logi-tip {
+  margin-top: 16px;
+  padding: 13px 17px;
+  border-radius: 17px;
+  color: #6f5c77;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px dashed rgba(255, 143, 177, 0.55);
+}
+
+.brand-cards {
+  display: grid;
+  gap: 13px;
+  margin-top: 16px;
+}
+
+.brand-card {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  padding: 18px 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  box-shadow: 0 10px 24px rgba(121, 93, 144, 0.1);
+  backdrop-filter: blur(12px);
+}
+
+.brand-card:nth-child(2) {
+  background: linear-gradient(145deg, #eaf7ff, #f2edff);
+}
+
+.brand-card:nth-child(3) {
+  background: linear-gradient(145deg, #fff4de, #eafff6);
+}
+
+.brand-emoji {
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+
+.brand-card h3 {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #4f3d59;
+}
+
+.brand-card p {
+  margin-top: 7px;
+  color: #7d6a86;
+  line-height: 1.8;
+  font-size: 0.9rem;
+}
+
+.logi-source {
+  width: min(1000px, 100%);
+  margin: 38px auto 0;
+  color: #a394a8;
+  font-size: 0.84rem;
+  line-height: 1.9;
+  text-align: center;
+}
+
+@media (max-width: 620px) {
+  .logi-page {
+    padding: 24px 16px 70px;
+  }
+
+  .logi-notice {
+    border-radius: 18px;
+  }
+
+  .brand-card {
+    flex-direction: column;
+  }
+}

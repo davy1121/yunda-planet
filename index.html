@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云大星球</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pageflow.css">
+  <script src="pageflow-start.js"></script>
+  <script src="pageflow.js" defer></script>
+</head>
+<body>
+  <!-- 背景里漂浮的彩色小星球 -->
+  <div class="scene" aria-hidden="true">
+    <span class="orb orb-pink"></span>
+    <span class="orb orb-peach"></span>
+    <span class="orb orb-yellow"></span>
+    <span class="orb orb-mint"></span>
+    <span class="orb orb-sky"></span>
+    <span class="orb orb-lavender"></span>
+  </div>
+
+  <main class="home">
+    <header class="hero" aria-label="云大星球简介">
+      <span class="hero-eyebrow">✦ 云南大学 · 校园星球 ✦</span>
+      <h1 class="site-title">云大星球</h1>
+      <p class="site-tagline">把学习生活与校园生活，装进一颗轻快的多巴胺星球</p>
+      <span class="hero-float hero-float-a" aria-hidden="true">☁️</span>
+      <span class="hero-float hero-float-b" aria-hidden="true">🪐</span>
+      <span class="hero-float hero-float-c" aria-hidden="true">✨</span>
+    </header>
+
+    <nav class="menu" aria-label="云大星球功能入口">
+      <section class="menu-section" data-section="study">
+        <button class="menu-head menu-study" type="button" aria-expanded="false" aria-controls="study-options">
+          <span class="menu-icon" aria-hidden="true">📚</span>
+          <span class="menu-name">学习生活</span>
+          <svg class="menu-toggle" viewBox="0 0 24 24" width="20" height="20" fill="none"
+               stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
+            <path d="M12 5v14M5 12h14"></path>
+          </svg>
+        </button>
+        <div class="option-panel" id="study-options">
+          <div class="option-inner">
+            <div class="option-row">
+              <a class="option-chip chip-study option-link" href="schedule.html">课表录入</a>
+              <a class="option-chip chip-study option-link" href="services.html">云大服务系统</a>
+              <a class="option-chip chip-study option-link" href="discuss.html">云大学习讨论</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="menu-section" data-section="campus">
+        <button class="menu-head menu-campus" type="button" aria-expanded="false" aria-controls="campus-options">
+          <span class="menu-icon" aria-hidden="true">🎒</span>
+          <span class="menu-name">校园生活</span>
+          <svg class="menu-toggle" viewBox="0 0 24 24" width="20" height="20" fill="none"
+               stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
+            <path d="M12 5v14M5 12h14"></path>
+          </svg>
+        </button>
+        <div class="option-panel" id="campus-options">
+          <div class="option-inner">
+            <div class="option-row">
+              <a class="option-chip chip-campus option-link" href="environment.html">学校环境</a>
+              <a class="option-chip chip-campus option-link" href="canteens.html">学校食堂</a>
+              <a class="option-chip chip-campus option-link" href="transport.html">校内出行</a>
+              <a class="option-chip chip-campus option-link" href="courier.html">校内快递</a>
+              <a class="option-chip chip-campus option-link" href="forum.html">校内论坛</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </nav>
+
+    <section class="feature-strip" aria-label="云大星球特点">
+      <div class="feature-item">
+        <span class="feature-emoji" aria-hidden="true">📚</span>
+        <div>
+          <strong>学习生活</strong>
+          <small>课表 · 云大服务 · 学习讨论</small>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-emoji" aria-hidden="true">🎒</span>
+        <div>
+          <strong>校园生活</strong>
+          <small>环境 · 食堂 · 出行 · 快递 · 论坛</small>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-emoji" aria-hidden="true">🔒</span>
+        <div>
+          <strong>轻量使用</strong>
+          <small>无需登录 · 数据保存在本机</small>
+        </div>
+      </div>
+    </section>
+
+    <p class="home-hint">点击上方「学习生活 / 校园生活」即可展开功能入口</p>
+
+    <footer class="home-footer">☁️ 云大星球 · 云上相聚，快乐上学</footer>
+  </main>
+
+  <script>
+    const menuSections = Array.from(document.querySelectorAll(".menu-section"));
+
+    function collapseAll() {
+      menuSections.forEach((item) => {
+        item.classList.remove("open");
+        item.querySelector(".menu-head").setAttribute("aria-expanded", "false");
+      });
+    }
+
+    menuSections.forEach((section) => {
+      const head = section.querySelector(".menu-head");
+      head.addEventListener("click", () => {
+        const wasOpen = section.classList.contains("open");
+        collapseAll();
+        if (!wasOpen) {
+          section.classList.add("open");
+          head.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
