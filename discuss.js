@@ -63,6 +63,12 @@
         })
         .then(function (data) {
           if (!res.ok) {
+            /* 登录态失效（会话过期等）：直接送去登录页，不弹错误提示 */
+            if (res.status === 401) {
+              window.location.href =
+                "/login.html?next=" + encodeURIComponent(location.pathname + location.search);
+              return new Promise(function () {});
+            }
             var error = new Error((data && data.error) || "请求失败（" + res.status + "）");
             error.status = res.status;
             throw error;

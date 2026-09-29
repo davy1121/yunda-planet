@@ -1,4 +1,4 @@
-# 云大星球 · Cloudflare Workers 项目配置
+# 云大星球 · Cloudflare Workers 项目配置（账号版）
 # 放在仓库根目录（与 index.html 同级）
 
 name = "yunda-planet"
@@ -6,15 +6,27 @@ main = "src/index.js"
 compatibility_date = "2026-09-29"
 
 # 静态资源：把仓库根目录当作站点根目录，由 Worker 里的 env.ASSETS 提供
-# .assetsignore 负责把 src/、wrangler.toml 等非站点文件排除掉，不对外暴露
+# run_worker_first = true 是关键：所有请求先经过 Worker，才能做「未登录不许看」的门禁
 [assets]
 directory = "."
 binding = "ASSETS"
 not_found_handling = "none"
+run_worker_first = true
 
-# D1 数据库绑定：变量名必须是 DB（Worker 代码里读的是 env.DB）
-# database_id 在创建 D1 数据库后，从数据库详情页复制过来替换下面这行
+# D1 数据库绑定：变量名必须是 DB
 [[d1_databases]]
 binding = "DB"
 database_name = "yunda-forum"
 database_id = "df4ed6ef-67c1-42d0-8645-442e6a93ce3d"
+
+[vars]
+# 1 = 必须登录才能浏览任何页面；0 = 网站对所有人开放，只有发帖需要登录
+REQUIRE_LOGIN = "1"
+# 1 = 必须填完真实姓名+专业才能使用；0 = 不强制
+REQUIRE_PROFILE = "1"
+# 1 = 必须通过实名审核才能发帖（需你人工核对）；0 = 填完即可发帖
+REQUIRE_VERIFIED = "0"
+# 登录状态保持天数
+SESSION_DAYS = "30"
+
+# 另外建议在控制台加一个加密变量 AUTH_PEPPER（见 README），不加也能跑。

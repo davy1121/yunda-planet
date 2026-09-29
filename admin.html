@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>管理员工具 · 云大星球</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;min-height:100vh;padding:30px 18px 60px;
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    color:#33384a;background:linear-gradient(160deg,#f6f7fb 0%,#eef1f9 100%);-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px;margin:0 auto}
+  h1{font-size:20px;margin:0 0 6px;font-weight:600}
+  .sub{color:#8b90a3;font-size:13px;margin:0 0 22px}
+  .card{background:#fff;border:1px solid #e6e9f2;border-radius:16px;padding:20px 22px;margin-bottom:18px;box-shadow:0 6px 20px rgba(70,70,120,.05)}
+  h2{font-size:15px;margin:0 0 14px;font-weight:600}
+  label{display:block;margin-bottom:12px}
+  label span{display:block;font-size:13px;color:#6b7186;margin-bottom:6px}
+  input,select{
+    width:100%;padding:10px 12px;border:1px solid #e2e5ef;border-radius:10px;font-size:14px;
+    background:#fff;color:#2c3143;outline:none
+  }
+  input:focus,select:focus{border-color:#8fa8f5;box-shadow:0 0 0 3px rgba(140,165,245,.16)}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row > *{flex:1;min-width:160px}
+  .btn{
+    padding:10px 18px;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;
+    background:linear-gradient(135deg,#7f9df5,#a99af0);color:#fff
+  }
+  .btn:disabled{opacity:.55;cursor:default}
+  .btn.ghost{background:#fff;color:#5d6478;border:1px solid #e2e5ef;font-weight:500}
+  .btn.mini{padding:5px 11px;font-size:12.5px;border-radius:8px;font-weight:500}
+  .tip{font-size:13px;margin:10px 0 0;min-height:18px}
+  .tip.err{color:#d9534f}.tip.ok{color:#2f9e6f}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{border-bottom:1px solid #eef1f7;padding:9px 8px;text-align:left;vertical-align:middle}
+  th{color:#6b7186;font-weight:500;font-size:12.5px;background:#fafbfe}
+  tr:last-child td{border-bottom:none}
+  .badge{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px}
+  .badge.pending{background:#fff5e5;color:#c77700}
+  .badge.verified{background:#e9f7ef;color:#0f9d58}
+  .badge.miss{background:#f4f5f8;color:#9aa0b2}
+  .hidden{display:none!important}
+  .note{font-size:12.5px;color:#9aa0b2;line-height:1.7;margin:10px 0 0}
+  .warn{background:#fff5e5;border:1px solid #ffe2b8;color:#8a5a00;border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.6;margin-bottom:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>管理员工具</h1>
+  <p class="sub">查看账号名单 · 标记实名认证 · 重置他人密码</p>
+
+  <div class="warn" id="setupWarn">
+    <b>首次使用</b>：需要先在 Cloudflare 控制台为本项目添加一个<b>加密变量</b>：名称 <code>ADMIN_KEY</code>，
+    值填一串你自己编的长随机字符（越长约好，建议 32 位以上）。添加后重新部署，再用它登录这里。
+  </div>
+
+  <div class="card">
+    <h2>管理员密钥</h2>
+    <div class="row">
+      <label style="flex:3"><span>ADMIN_KEY</span><input id="key" type="password" placeholder="粘贴你在 Cloudflare 配置的 ADMIN_KEY"></label>
+      <div style="flex:0 0 auto;display:flex;align-items:flex-end;padding-bottom:12px">
+        <button class="btn" id="btnUnlock" type="button">验证并加载</button>
+      </div>
+    </div>
+    <p class="tip" id="tipKey"></p>
+    <p class="note">密钥只保存在这个标签页的内存里，关闭页面即失效，不会写入磁盘或地址栏。</p>
+  </div>
+
+  <div id="panel" class="hidden">
+    <div class="card">
+      <h2>账号名单 <span style="color:#9aa0b2;font-weight:400;font-size:13px" id="userCount"></span></h2>
+      <div class="row" style="margin-bottom:10px">
+        <input id="search" type="text" placeholder="搜索账号 / 姓名 / 专业" style="flex:2">
+        <button class="btn ghost" id="btnReload" type="button" style="flex:0 0 auto">刷新</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr><th>账号</th><th>昵称</th><th>真实姓名</th><th>专业</th><th>认证</th><th>帖子</th><th>注册时间</th><th>操作</th></tr>
+          </thead>
+          <tbody id="userRows"></tbody>
+        </table>
+      </div>
+      <p class="note">「认证」列显示每个人的实名审核状态。点「通过」即标为已认证（需先把 wrangler.toml 里的 REQUIRE_VERIFIED 改成 "1" 才会真正拦住未认证的人发帖）。</p>
+    </div>
+
+    <div class="card">
+      <h2>重置密码</h2>
+      <div class="row">
+        <label><span>要重置的账号</span><input id="rpUser" type="text" placeholder="对方注册时用的账号名" maxlength="20"></label>
+        <label><span>新密码（至少 6 位）</span><input id="rpPass" type="password" placeholder="新的登录密码"></label>
+        <label><span>再输一次</span><input id="rpPass2" type="password" placeholder="确认新密码"></label>
+      </div>
+      <button class="btn" id="btnReset" type="button">确认重置</button>
+      <p class="tip" id="tipReset"></p>
+      <p class="note">重置后，对方<b>所有已登录的设备会被强制退出</b>，需要用新密码重新登录。请通过可信渠道把新密码告诉本人。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var ITERATIONS = 100000;
+  var key = "";
+  var users = [];
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  function tip(id, msg, ok) {
+    var el = $(id);
+    el.textContent = msg || "";
+    el.className = "tip" + (msg ? (ok ? " ok" : " err") : "");
+  }
+  function busy(btn, on, text) {
+    btn.disabled = on;
+    if (on) { btn.dataset.old = btn.textContent; btn.textContent = text || "处理中…"; }
+    else if (btn.dataset.old) { btn.textContent = btn.dataset.old; }
+  }
+  function api(path, options) {
+    options = options || {};
+    var init = { method: options.method || "GET", headers: { "x-admin-key": key }, credentials: "same-origin" };
+    if (options.body !== undefined) {
+      init.headers["Content-Type"] = "application/json";
+      init.body = JSON.stringify(options.body);
+    }
+    return fetch("/api" + path, init).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (!res.ok) {
+          var err = new Error((data && data.error) || ("请求失败（" + res.status + "）"));
+          err.status = res.status;
+          throw err;
+        }
+        return data;
+      });
+    });
+  }
+  function hex(buf) {
+    return Array.prototype.map.call(new Uint8Array(buf), function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+  }
+  function randomSalt() {
+    var a = new Uint8Array(16); crypto.getRandomValues(a); return hex(a.buffer);
+  }
+  function derive(salt, password) {
+    var enc = new TextEncoder();
+    return crypto.subtle.importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveBits"])
+      .then(function (k) {
+        return crypto.subtle.deriveBits(
+          { name: "PBKDF2", salt: enc.encode(salt), iterations: ITERATIONS, hash: "SHA-256" }, k, 256);
+      })
+      .then(hex);
+  }
+  function esc(v) {
+    return String(v == null ? "" : v).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] || c;
+    });
+  }
+
+  function badge(u) {
+    if (!u.profileComplete) return '<span class="badge miss">未填资料</span>';
+    return u.verifyStatus === "verified"
+      ? '<span class="badge verified">已认证</span>'
+      : '<span class="badge pending">待审核</span>';
+  }
+
+  function render() {
+    var q = $("search").value.trim().toLowerCase();
+    var list = users.filter(function (u) {
+      if (!q) return true;
+      return (u.username + " " + u.displayName + " " + u.realName + " " + u.major).toLowerCase().indexOf(q) > -1;
+    });
+    $("userCount").textContent = "（共 " + users.length + " 人" + (q ? "，匹配 " + list.length + " 人" : "") + "）";
+    $("userRows").innerHTML = list.length === 0
+      ? '<tr><td colspan="8" style="color:#9aa0b2;padding:18px 8px">没有匹配的账号</td></tr>'
+      : list.map(function (u) {
+          var verified = u.verifyStatus === "verified";
+          return "<tr>" +
+            "<td><b>" + esc(u.username) + "</b></td>" +
+            "<td>" + esc(u.displayName) + "</td>" +
+            "<td>" + (esc(u.realName) || '<span style="color:#c0c4d2">未填</span>') + "</td>" +
+            "<td>" + (esc(u.major) || '<span style="color:#c0c4d2">未填</span>') + "</td>" +
+            "<td>" + badge(u) + "</td>" +
+            "<td>" + u.postCount + " 帖 / " + u.replyCount + " 回复</td>" +
+            "<td style=\"white-space:nowrap\">" + esc(u.createdAtText) + "</td>" +
+            '<td><button class="btn ghost mini" data-verify="' + esc(u.username) + '" data-to="' + (verified ? "0" : "1") + '">' +
+            (verified ? "取消认证" : "通过") + "</button></td>" +
+            "</tr>";
+        }).join("");
+  }
+
+  function load() {
+    return api("/admin/users").then(function (r) {
+      users = r.users || [];
+      render();
+      $("panel").classList.remove("hidden");
+      $("setupWarn").classList.add("hidden");
+    });
+  }
+
+  $("btnUnlock").addEventListener("click", function () {
+    var v = $("key").value.trim();
+    if (!v) { tip("tipKey", "请输入管理员密钥"); return; }
+    key = v;
+    var btn = this;
+    busy(btn, true, "验证中…");
+    tip("tipKey", "");
+    load()
+      .then(function () { busy(btn, false); tip("tipKey", "验证成功", true); $("key").value = ""; })
+      .catch(function (err) {
+        busy(btn, false);
+        key = "";
+        tip("tipKey", err.message);
+      });
+  });
+  $("key").addEventListener("keydown", function (e) { if (e.key === "Enter") $("btnUnlock").click(); });
+  $("btnReload").addEventListener("click", function () { load().catch(function (e) { alert(e.message); }); });
+  $("search").addEventListener("input", render);
+
+  $("userRows").addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-verify]");
+    if (!btn) return;
+    var username = btn.getAttribute("data-verify");
+    var verified = btn.getAttribute("data-to") === "1";
+    busy(btn, true, "…");
+    api("/admin/verify", { method: "POST", body: { username: username, verified: verified } })
+      .then(function () { return load(); })
+      .catch(function (err) { busy(btn, false); alert(err.message); });
+  });
+
+  $("btnReset").addEventListener("click", function () {
+    var u = $("rpUser").value.trim();
+    var p = $("rpPass").value;
+    var p2 = $("rpPass2").value;
+    if (!u) { tip("tipReset", "请填写要重置的账号"); return; }
+    if (!p || p.length < 6) { tip("tipReset", "新密码至少 6 位"); return; }
+    if (p !== p2) { tip("tipReset", "两次输入的密码不一致"); return; }
+    if (u === "__admin__") { tip("tipReset", "账号名不合法"); return; }
+    var btn = this;
+    busy(btn, true, "重置中…");
+    tip("tipReset", "");
+    var salt = randomSalt();
+    derive(salt, p)
+      .then(function (hash) {
+        return api("/admin/reset-password", { method: "POST", body: { username: u, newSalt: salt, newPassHash: hash } });
+      })
+      .then(function () {
+        busy(btn, false);
+        $("rpPass").value = ""; $("rpPass2").value = "";
+        tip("tipReset", "已重置「" + u + "」的密码，该账号的登录状态已被强制退出。请把新密码交给本人。", true);
+      })
+      .catch(function (err) { busy(btn, false); tip("tipReset", err.message); });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录 · 云大星球</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px 18px;
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    color:#33384a;background:linear-gradient(160deg,#fdf6ee 0%,#f3f0fb 45%,#eaf6f4 100%);
+    -webkit-font-smoothing:antialiased;
+  }
+  .orb{position:fixed;border-radius:50%;filter:blur(38px);opacity:.5;pointer-events:none}
+  .o1{width:230px;height:230px;background:#ffd9e3;top:-60px;left:-50px}
+  .o2{width:200px;height:200px;background:#cfe9ff;bottom:-60px;right:-40px}
+  .o3{width:170px;height:170px;background:#ffe9b8;top:40%;right:8%}
+  .o4{width:160px;height:160px;background:#d3f5e3;bottom:12%;left:6%}
+  .card{
+    position:relative;width:100%;max-width:420px;background:rgba(255,255,255,.86);
+    border:1px solid rgba(255,255,255,.9);border-radius:22px;
+    box-shadow:0 18px 50px rgba(70,70,120,.12);backdrop-filter:blur(14px);padding:30px 26px 26px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:6px}
+  .logo{
+    width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#ffb4c6,#93b6f8);color:#fff;font-weight:700;font-size:14px;letter-spacing:.5px
+  }
+  h1{font-size:19px;margin:0;font-weight:600;letter-spacing:.2px}
+  .sub{text-align:center;color:#8b90a3;font-size:13px;margin:8px 0 22px;line-height:1.6}
+  .view{display:none}
+  .view.on{display:block}
+  label{display:block;margin-bottom:14px}
+  label span{display:block;font-size:13px;color:#6b7186;margin-bottom:6px}
+  input{
+    width:100%;padding:11px 13px;border:1px solid #e2e5ef;border-radius:11px;font-size:15px;
+    background:#fff;color:#2c3143;outline:none;transition:border-color .15s,box-shadow .15s
+  }
+  input:focus{border-color:#8fa8f5;box-shadow:0 0 0 3px rgba(140,165,245,.16)}
+  .btn{
+    width:100%;padding:12px;border:none;border-radius:11px;font-size:15px;font-weight:600;cursor:pointer;
+    background:linear-gradient(135deg,#7f9df5,#a99af0);color:#fff;transition:filter .15s
+  }
+  .btn:hover{filter:brightness(1.05)}
+  .btn:disabled{opacity:.55;cursor:default;filter:none}
+  .btn.ghost{background:#fff;color:#5d6478;border:1px solid #e2e5ef;font-weight:500}
+  .tip{min-height:20px;font-size:13px;margin:12px 0 0;line-height:1.5}
+  .tip.err{color:#d9534f}
+  .tip.ok{color:#2f9e6f}
+  .switch{text-align:center;font-size:13.5px;color:#8b90a3;margin-top:16px}
+  .switch a{color:#6d86ea;text-decoration:none;font-weight:500;cursor:pointer}
+  .switch a:hover{text-decoration:underline}
+  .note{
+    margin-top:18px;padding-top:15px;border-top:1px dashed #e6e9f2;font-size:12.5px;color:#9aa0b2;line-height:1.7
+  }
+  .me-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed #eceff6;font-size:14px}
+  .me-row:last-of-type{border-bottom:none}
+  .me-row b{font-weight:600;color:#2c3143}
+  .me-row span{color:#6b7186}
+  .badge{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;font-weight:500}
+  .badge.pending{background:#fff5e5;color:#c77700}
+  .badge.verified{background:#e9f7ef;color:#0f9d58}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div>
+
+<div class="card">
+  <div class="brand">
+    <div class="logo">云大</div>
+    <h1>云大星球</h1>
+  </div>
+  <p class="sub" id="subText">登录后即可查看校内论坛与学习讨论</p>
+
+  <!-- 登录 -->
+  <div class="view on" id="viewLogin">
+    <label><span>账号</span><input id="loginUser" type="text" autocomplete="username" placeholder="请输入你的账号" maxlength="20"></label>
+    <label><span>密码</span><input id="loginPass" type="password" autocomplete="current-password" placeholder="请输入密码"></label>
+    <button class="btn" id="btnLogin" type="button">登 录</button>
+    <p class="tip" id="tipLogin"></p>
+    <div class="switch">还没有账号？<a id="toRegister">注册一个</a></div>
+  </div>
+
+  <!-- 注册 -->
+  <div class="view" id="viewRegister">
+    <label><span>账号（3-20 位字母、数字或下划线）</span><input id="regUser" type="text" autocomplete="username" placeholder="自己起一个账号名" maxlength="20"></label>
+    <label><span>密码（至少 6 位）</span><input id="regPass" type="password" autocomplete="new-password" placeholder="建议字母+数字组合"></label>
+    <label><span>确认密码</span><input id="regPass2" type="password" autocomplete="new-password" placeholder="再输入一次"></label>
+    <button class="btn" id="btnRegister" type="button">注册并进入</button>
+    <p class="tip" id="tipRegister"></p>
+    <div class="switch">已经有账号了？<a id="toLogin">去登录</a></div>
+    <p class="note">注册只需要自己设账号和密码，不需要学校邮箱。注册完成后需要填写真实姓名和所在专业。</p>
+  </div>
+
+  <!-- 完善资料 -->
+  <div class="view" id="viewProfile">
+    <label><span>真实姓名</span><input id="pfName" type="text" placeholder="用于实名记录，不会公开显示" maxlength="20"></label>
+    <label><span>所在专业</span><input id="pfMajor" type="text" placeholder="例如：计算机科学与技术" maxlength="40"></label>
+    <label><span>公开昵称（可选）</span><input id="pfNick" type="text" placeholder="别人在帖子里看到的昵称，留空则用账号名" maxlength="16"></label>
+    <button class="btn" id="btnProfile" type="button">保存并进入</button>
+    <p class="tip" id="tipProfile"></p>
+    <p class="note">真实姓名与专业只用于站内实名记录，<b>不会出现在帖子里</b>。发帖时你可以选择公开昵称或匿名。</p>
+  </div>
+
+  <!-- 账号中心 -->
+  <div class="view" id="viewMe">
+    <div class="me-row"><span>账号</span><b id="meUser">--</b></div>
+    <div class="me-row"><span>公开昵称</span><b id="meNick">--</b></div>
+    <div class="me-row"><span>真实姓名</span><b id="meName">--</b></div>
+    <div class="me-row"><span>专业</span><b id="meMajor">--</b></div>
+    <div class="me-row"><span>认证状态</span><b><span class="badge pending" id="meStatus">待审核</span></b></div>
+    <div style="margin-top:18px;display:flex;gap:10px">
+      <button class="btn" id="btnHome" type="button">进入星球主页</button>
+      <button class="btn ghost" id="btnLogout" type="button">退出登录</button>
+    </div>
+    <div class="switch" style="margin-top:14px"><a id="toChangePwd">修改密码</a></div>
+
+    <div id="pwdBox" class="hidden" style="margin-top:16px;padding-top:14px;border-top:1px dashed #e6e9f2">
+      <label><span>当前密码</span><input id="pwOld" type="password" autocomplete="current-password"></label>
+      <label><span>新密码（至少 6 位）</span><input id="pwNew" type="password" autocomplete="new-password"></label>
+      <label><span>确认新密码</span><input id="pwNew2" type="password" autocomplete="new-password"></label>
+      <button class="btn" id="btnPwd" type="button">确认修改</button>
+      <p class="tip" id="tipPwd"></p>
+    </div>
+
+    <p class="note">帖子里公开的只是「公开昵称」；实名信息仅存档，用于内容追溯。忘记密码请联系管理员重置。</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var ITERATIONS = 100000;
+  var viewEls = {
+    login: document.getElementById("viewLogin"),
+    register: document.getElementById("viewRegister"),
+    profile: document.getElementById("viewProfile"),
+    me: document.getElementById("viewMe")
+  };
+  var nextUrl = new URLSearchParams(location.search).get("next") || "/index.html";
+  if (nextUrl.charAt(0) !== "/") nextUrl = "/index.html";
+  var current = null;
+
+  function show(name, sub) {
+    for (var k in viewEls) viewEls[k].classList.toggle("on", k === name);
+    if (sub) document.getElementById("subText").textContent = sub;
+    document.getElementById("pwdBox").classList.add("hidden");
+  }
+  function tip(id, msg, ok) {
+    var el = document.getElementById(id);
+    el.textContent = msg || "";
+    el.className = "tip" + (msg ? (ok ? " ok" : " err") : "");
+  }
+  function busy(btn, on, text) {
+    btn.disabled = on;
+    if (on) { btn.dataset.old = btn.textContent; btn.textContent = text || "处理中…"; }
+    else if (btn.dataset.old) { btn.textContent = btn.dataset.old; }
+  }
+  function api(path, options) {
+    options = options || {};
+    var init = { method: options.method || "GET", headers: {}, credentials: "same-origin" };
+    if (options.body !== undefined) {
+      init.headers["Content-Type"] = "application/json";
+      init.body = JSON.stringify(options.body);
+    }
+    return fetch("/api" + path, init).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (!res.ok) {
+          var err = new Error((data && data.error) || "请求失败（" + res.status + "）");
+          err.status = res.status;
+          throw err;
+        }
+        return data;
+      });
+    });
+  }
+
+  function hex(buf) {
+    return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+      return b.toString(16).padStart(2, "0");
+    }).join("");
+  }
+  function randomSalt() {
+    var arr = new Uint8Array(16);
+    crypto.getRandomValues(arr);
+    return hex(arr.buffer);
+  }
+  function derive(salt, password) {
+    var enc = new TextEncoder();
+    return crypto.subtle
+      .importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveBits"])
+      .then(function (key) {
+        return crypto.subtle.deriveBits(
+          { name: "PBKDF2", salt: enc.encode(salt), iterations: ITERATIONS, hash: "SHA-256" }, key, 256
+        );
+      })
+      .then(hex);
+  }
+  function checkPassword(p, p2) {
+    if (!p || p.length < 6) return "密码至少 6 位";
+    if (p.length > 72) return "密码太长了";
+    if (p2 !== undefined && p !== p2) return "两次输入的密码不一致";
+    return "";
+  }
+
+  function route(profile) {
+    current = profile;
+    if (!profile) { show("login", "登录后即可查看校内论坛与学习讨论"); return; }
+    if (!profile.profileComplete) { show("profile", "还差一步：填写真实姓名和专业"); return; }
+    fillMe(profile);
+    show("me", "你好，" + (profile.displayName || profile.username));
+    if (location.hash === "#profile") return;
+  }
+
+  function fillMe(p) {
+    document.getElementById("meUser").textContent = p.username || "--";
+    document.getElementById("meNick").textContent = p.displayName || "--";
+    document.getElementById("meName").textContent = p.realName || "--";
+    document.getElementById("meMajor").textContent = p.major || "--";
+    var st = document.getElementById("meStatus");
+    if (p.verifyStatus === "verified") { st.textContent = "已认证"; st.className = "badge verified"; }
+    else { st.textContent = "待审核"; st.className = "badge pending"; }
+  }
+
+  /* ---- 登录 ---- */
+  document.getElementById("btnLogin").addEventListener("click", function () {
+    var u = document.getElementById("loginUser").value.trim();
+    var p = document.getElementById("loginPass").value;
+    if (!u || !p) { tip("tipLogin", "请输入账号和密码"); return; }
+    var btn = this;
+    busy(btn, true, "登录中…");
+    tip("tipLogin", "");
+    api("/auth/salt?username=" + encodeURIComponent(u))
+      .then(function (r) { return derive(r.salt, p); })
+      .then(function (hash) { return api("/auth/login", { method: "POST", body: { username: u, passHash: hash } }); })
+      .then(function (r) { busy(btn, false); route(r.profile); })
+      .catch(function (err) { busy(btn, false); tip("tipLogin", err.message); });
+  });
+
+  /* ---- 注册 ---- */
+  document.getElementById("btnRegister").addEventListener("click", function () {
+    var u = document.getElementById("regUser").value.trim();
+    var p = document.getElementById("regPass").value;
+    var p2 = document.getElementById("regPass2").value;
+    if (!/^[A-Za-z0-9_]{3,20}$/.test(u)) { tip("tipRegister", "账号需 3-20 位，只能用字母、数字、下划线"); return; }
+    var bad = checkPassword(p, p2);
+    if (bad) { tip("tipRegister", bad); return; }
+    var btn = this;
+    busy(btn, true, "注册中…");
+    tip("tipRegister", "");
+    var salt = randomSalt();
+    derive(salt, p)
+      .then(function (hash) {
+        return api("/auth/register", { method: "POST", body: { username: u, salt: salt, passHash: hash } });
+      })
+      .then(function (r) { busy(btn, false); route(r.profile); })
+      .catch(function (err) { busy(btn, false); tip("tipRegister", err.message); });
+  });
+
+  /* ---- 完善资料 ---- */
+  document.getElementById("btnProfile").addEventListener("click", function () {
+    var name = document.getElementById("pfName").value.trim();
+    var major = document.getElementById("pfMajor").value.trim();
+    var nick = document.getElementById("pfNick").value.trim();
+    if (name.length < 2) { tip("tipProfile", "请填写真实姓名（至少 2 个字）"); return; }
+    if (major.length < 2) { tip("tipProfile", "请填写所在专业"); return; }
+    var btn = this;
+    busy(btn, true, "保存中…");
+    tip("tipProfile", "");
+    api("/auth/profile", { method: "PUT", body: { realName: name, major: major, displayName: nick } })
+      .then(function (r) { busy(btn, false); current = r.profile; fillMe(r.profile); show("me", "资料已保存，欢迎加入云大星球"); })
+      .catch(function (err) { busy(btn, false); tip("tipProfile", err.message); });
+  });
+
+  /* ---- 账号中心 ---- */
+  document.getElementById("btnHome").addEventListener("click", function () { location.href = nextUrl; });
+  document.getElementById("btnLogout").addEventListener("click", function () { location.href = "/api/auth/logout"; });
+  document.getElementById("toChangePwd").addEventListener("click", function () {
+    document.getElementById("pwdBox").classList.toggle("hidden");
+  });
+  document.getElementById("btnPwd").addEventListener("click", function () {
+    var oldP = document.getElementById("pwOld").value;
+    var n1 = document.getElementById("pwNew").value;
+    var n2 = document.getElementById("pwNew2").value;
+    if (!oldP) { tip("tipPwd", "请输入当前密码"); return; }
+    var bad = checkPassword(n1, n2);
+    if (bad) { tip("tipPwd", bad); return; }
+    var btn = this;
+    busy(btn, true, "修改中…");
+    tip("tipPwd", "");
+    var oldSalt = "";
+    api("/auth/salt?username=" + encodeURIComponent(current.username))
+      .then(function (r) { oldSalt = r.salt; return derive(oldSalt, oldP); })
+      .then(function (oldHash) {
+        var newSalt = randomSalt();
+        return derive(newSalt, n1).then(function (newHash) {
+          return api("/auth/password", {
+            method: "POST",
+            body: { oldPassHash: oldHash, newSalt: newSalt, newPassHash: newHash }
+          });
+        });
+      })
+      .then(function () {
+        busy(btn, false);
+        document.getElementById("pwOld").value = "";
+        document.getElementById("pwNew").value = "";
+        document.getElementById("pwNew2").value = "";
+        tip("tipPwd", "密码已修改，下次请用新密码登录", true);
+      })
+      .catch(function (err) { busy(btn, false); tip("tipPwd", err.message); });
+  });
+
+  /* ---- 视图切换 ---- */
+  document.getElementById("toRegister").addEventListener("click", function () { show("register", "创建一个属于你的账号"); });
+  document.getElementById("toLogin").addEventListener("click", function () { show("login", "登录后即可查看校内论坛与学习讨论"); });
+
+  /* ---- 启动 ---- */
+  if (!(window.crypto && window.crypto.subtle)) {
+    tip("tipLogin", "当前浏览器环境不支持加密功能，请换用 https 地址或更新浏览器");
+  } else {
+    api("/auth/me")
+      .then(function (r) { route(r.loggedIn ? r.profile : null); })
+      .catch(function () { show("login", "登录后即可查看校内论坛与学习讨论"); });
+  }
+})();
+</script>
+</body>
+</html>
