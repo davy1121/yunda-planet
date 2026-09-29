@@ -11,6 +11,7 @@
   <script src="pageflow-start.js"></script>
   <script>
     window.YUNQIU_FORUM_CONFIG = {
+      board: "forum",
       storageKey: "yunqiu_campus_forum_v1",
       categories: {
         talk: { label: "校园闲聊", emoji: "💬", className: "cat-campus" },
@@ -45,10 +46,10 @@
 
     <section class="discuss-toolbar" aria-label="发帖与统计">
       <button class="tool-btn compose-btn" id="composeBtn" type="button">＋ 发布新帖</button>
-      <p class="post-stat" id="postStat">还没有帖子</p>
+      <p class="post-stat" id="postStat">正在加载…</p>
     </section>
     <p class="storage-note">
-      ℹ️ 当前帖子保存在这台电脑的浏览器里。以后接上服务器后，就能让所有同学一起看到、一起讨论。
+      ℹ️ 帖子保存在云端，所有通过身份验证的同学都能看到。发帖时可选择「公开」（显示昵称）或「匿名」（只显示"匿名同学"）。
     </p>
 
     <nav class="category-bar" id="categoryBar" aria-label="帖子分类">
@@ -84,8 +85,15 @@
             </select>
           </label>
           <label class="d-field">
-            <span>昵称（可选）</span>
-            <input id="postAuthor" type="text" maxlength="16" placeholder="默认：云大学子">
+            <span>昵称（公开时显示，可选）</span>
+            <input id="postAuthor" type="text" maxlength="16" placeholder="留空则用你的账号昵称">
+          </label>
+          <label class="d-field">
+            <span>发布身份</span>
+            <select id="postIdentity">
+              <option value="public">公开（显示昵称）</option>
+              <option value="anonymous">匿名（只显示"匿名同学"）</option>
+            </select>
           </label>
         </div>
 

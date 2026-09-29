@@ -1,0 +1,20 @@
+# 云大星球 · Cloudflare Workers 项目配置
+# 放在仓库根目录（与 index.html 同级）
+
+name = "yunda-planet"
+main = "src/index.js"
+compatibility_date = "2026-09-29"
+
+# 静态资源：把仓库根目录当作站点根目录，由 Worker 里的 env.ASSETS 提供
+# .assetsignore 负责把 src/、wrangler.toml 等非站点文件排除掉，不对外暴露
+[assets]
+directory = "."
+binding = "ASSETS"
+not_found_handling = "none"
+
+# D1 数据库绑定：变量名必须是 DB（Worker 代码里读的是 env.DB）
+# database_id 在创建 D1 数据库后，从数据库详情页复制过来替换下面这行
+[[d1_databases]]
+binding = "DB"
+database_name = "yunda-forum"
+database_id = "df4ed6ef-67c1-42d0-8645-442e6a93ce3d"
